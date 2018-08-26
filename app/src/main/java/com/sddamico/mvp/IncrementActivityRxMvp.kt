@@ -16,15 +16,7 @@ class IncrementActivityRxMvp : AppCompatActivity(), ViewRx {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val maybePresenter = lastCustomNonConfigurationInstance as PresenterRx?
-
-        if (maybePresenter != null) {
-            presenter = maybePresenter
-        }
-
-        if (!::presenter.isInitialized) {
-            presenter = IncrementActivityRxPresenterImpl()
-        }
+        initPresenter()
 
         setContentView(R.layout.activity_increment)
 
@@ -46,6 +38,18 @@ class IncrementActivityRxMvp : AppCompatActivity(), ViewRx {
 
     override fun setCountView(countString: String) {
         counter.text = countString
+    }
+
+    fun initPresenter() {
+        val maybePresenter = lastCustomNonConfigurationInstance as PresenterRx?
+
+        if (maybePresenter != null) {
+            presenter = maybePresenter
+        }
+
+        if (!::presenter.isInitialized) {
+            presenter = IncrementActivityRxPresenterImpl()
+        }
     }
 
     override fun onRetainCustomNonConfigurationInstance(): Any = presenter

@@ -44,6 +44,14 @@
                 android:label="MVMVP"
                 />
 
+        <activity android:name=".IncrementActivityRxMvmvpDatabinding"
+                android:configChanges="orientation|screenSize|keyboard|keyboardHidden"
+                android:rotationAnimation="seamless"
+                android:windowSoftInputMode="adjustPan|stateHidden"
+                android:exported="true"
+                android:label="MVMVP + Databinding!"
+                />
+
     </application>
 
 </manifest>

@@ -1,21 +1,16 @@
 package com.sddamico.mvp
 
 import android.os.Bundle
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
-import com.jakewharton.rxbinding2.view.clicks
+import com.sddamico.mvp.databinding.ActivityIncrementBindingBinding
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity
 import com.uber.autodispose.AutoDispose.autoDisposable
 import com.uber.autodispose.ScopeProvider
 import com.ubercab.autodispose.rxlifecycle.RxLifecycleInterop
 import io.reactivex.CompletableSource
 
-import kotlinx.android.synthetic.main.activity_increment.*
-
-typealias PresenterMvmvp = IncrementActivityMvmvpContract.PresenterMvmvp
-typealias ViewModelMvmvp = IncrementActivityMvmvpContract.IncrementActivityStateViewModel
-typealias StateMvmvp = IncrementActivityMvmvpContract.IncrementActivityMvmvpState
-
-class IncrementActivityRxMvmvp : RxAppCompatActivity(), ScopeProvider {
+class IncrementActivityRxMvmvpDatabinding : RxAppCompatActivity(), ScopeProvider {
 
     override fun requestScope(): CompletableSource = RxLifecycleInterop.from(this).requestScope()
 
@@ -23,32 +18,23 @@ class IncrementActivityRxMvmvp : RxAppCompatActivity(), ScopeProvider {
 
     private lateinit var presenter: IncrementActivityMvmvpContract.PresenterMvmvp
 
+    private lateinit var binding: ActivityIncrementBindingBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         initPresenter()
 
-        setContentView(R.layout.activity_increment)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_increment_binding)
+        binding.presenter = presenter
 
-        observeActions()
         observeState()
     }
-
 
     private fun observeState() {
         viewModel.state
                 .`as`(autoDisposable(this))
-                .subscribe { render(it) }
-    }
-
-    private fun render(state: StateMvmvp) {
-        counter.text = state.count
-    }
-
-    private fun observeActions() {
-        increment.clicks()
-                .`as`(autoDisposable(this))
-                .subscribe { presenter.onIncrementClicked() }
+                .subscribe { binding.model = it }
     }
 
     fun initPresenter() {

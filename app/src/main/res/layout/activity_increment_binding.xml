@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <data>
+        <variable
+            name="model"
+            type="com.sddamico.mvp.IncrementActivityMvmvpContract.IncrementActivityMvmvpState"/>
+        <variable
+            name="presenter"
+            type="com.sddamico.mvp.IncrementActivityMvmvpContract.PresenterMvmvp"/>
+    </data>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:clipChildren="false"
+            android:clipToPadding="false">
+
+            <TextView
+                android:id="@+id/counter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:textSize="128sp"
+                android:text="@{model.count}"
+                app:fontFamily="@font/robotomono_light"
+                />
+
+            <Button
+                android:id="@+id/increment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Increment!"
+                android:textColor="@color/colorTextDark"
+                android:onClick="@{view -> presenter.onIncrementClicked()}"
+                app:fontFamily="@font/roboto_medium"
+                />
+
+        </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</layout>
