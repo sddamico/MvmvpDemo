@@ -12,6 +12,7 @@
 bin/
 gen/
 out/
+/build
 
 # Gradle files
 .gradle/
@@ -63,3 +64,9 @@ fastlane/Preview.html
 fastlane/screenshots
 fastlane/test_output
 fastlane/readme.md
+
+# others
+/local.properties
+.DS_Store
+/captures
+.idea

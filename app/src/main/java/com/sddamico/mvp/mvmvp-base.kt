@@ -1,0 +1,27 @@
+package com.sddamico.mvp
+
+import android.annotation.SuppressLint
+import androidx.lifecycle.ViewModel
+import com.jakewharton.rxrelay2.BehaviorRelay
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.rxkotlin.Observables
+
+interface MvmvpPresenter<State, out VM: MvmvpViewModel<State>> {
+    val viewModel: VM
+}
+
+abstract class MvmvpViewModel<State>(initialState: State) : ViewModel() {
+    val state = BehaviorRelay.createDefault(initialState)!!
+}
+
+abstract class MvmvpPresenterBase<State, out VM: MvmvpViewModel<State>>(override val viewModel: VM) : MvmvpPresenter<State, VM> {
+
+    @SuppressLint("CheckResult")
+    fun sendToViewModel(reducer: (State) -> State) {
+        Observables.zip(Observable.just(reducer), viewModel.state)
+                .observeOn(AndroidSchedulers.mainThread()) // ensures mutations happen serially on main thread
+                .map { (reducer, state) -> reducer.invoke(state) }
+                .subscribe(viewModel.state)
+    }
+}
