@@ -3,6 +3,7 @@ package com.sddamico.mvp
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.TestScheduler
+import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -21,7 +22,7 @@ class MvmvpTest {
     fun `test initial state`() {
         val viewModel = ViewModelMvmvp()
 
-        assert(viewModel.state.value.count == "0")
+        assertTrue(viewModel.state.value.count == "0")
     }
 
 
@@ -30,13 +31,13 @@ class MvmvpTest {
         val viewModel = ViewModelMvmvp()
         val presenterImpl = PresenterMvmvpImpl(viewModel)
 
-        assert(viewModel.state.value.count == "0")
+        assertTrue(viewModel.state.value.count == "0")
 
         presenterImpl.onIncrementClicked()
 
         ioThreadScheduler.triggerActions()
         mainThreadScheduler.triggerActions()
 
-        assert(viewModel.state.value.count == "1")
+        assertTrue(viewModel.state.value.count == "1")
     }
 }
