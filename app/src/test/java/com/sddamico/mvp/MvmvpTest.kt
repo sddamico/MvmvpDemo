@@ -1,9 +1,12 @@
 package com.sddamico.mvp
 
+import com.natpryce.hamkrest.assertion.assert
+import com.natpryce.hamkrest.equalTo
+import com.nhaarman.mockitokotlin2.eq
+
 import io.reactivex.android.plugins.RxAndroidPlugins
 import io.reactivex.plugins.RxJavaPlugins
 import io.reactivex.schedulers.TestScheduler
-import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Test
 
@@ -22,7 +25,7 @@ class MvmvpTest {
     fun `test initial state`() {
         val viewModel = ViewModelMvmvp()
 
-        assertTrue(viewModel.state.value.count == "0")
+        assert.that(viewModel.state.value.count, equalTo("0"))
     }
 
 
@@ -31,13 +34,13 @@ class MvmvpTest {
         val viewModel = ViewModelMvmvp()
         val presenterImpl = PresenterMvmvpImpl(viewModel)
 
-        assertTrue(viewModel.state.value.count == "0")
+        assert.that(viewModel.state.value.count, equalTo("0"))
 
         presenterImpl.onIncrementClicked()
 
         ioThreadScheduler.triggerActions()
         mainThreadScheduler.triggerActions()
 
-        assertTrue(viewModel.state.value.count == "1")
+        assert.that(viewModel.state.value.count, equalTo("1"))
     }
 }
