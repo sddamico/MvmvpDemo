@@ -26,6 +26,7 @@ class IncrementActivityRxMvmvpDatabinding : RxAppCompatActivity(), ScopeProvider
         initPresenter()
 
         binding = DataBindingUtil.setContentView(this, R.layout.activity_increment_binding)
+        binding.setLifecycleOwner(this)
         binding.presenter = presenter
 
         observeState()
